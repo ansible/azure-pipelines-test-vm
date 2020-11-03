@@ -1,0 +1,41 @@
+# This is an Ansible vars file used to create an Azure Image Builder template.
+# Variables are substituted and the output is formatted as JSON to build the final template.
+# See: https://docs.microsoft.com/en-us/azure/virtual-machines/linux/image-builder-json
+
+type: Microsoft.VirtualMachineImages
+apiVersion: 2019-05-01-preview
+dependsOn: []
+identity:
+  type: UserAssigned
+  userAssignedIdentities: '{"/subscriptions/{{ subscription_id }}/resourcegroups/{{ resource_group }}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{{ builder_identity }}": {}}'
+location: "{{ build_region }}"
+properties:
+  buildTimeoutInMinutes: "{{ build_timeout_minutes }}"
+  customize:
+    - inline:
+        - sudo apt-get update -y
+        - sudo apt-get install docker.io -y --no-install-recommends
+      name: Install Packages
+      type: Shell
+    - inline: "{{ docker_pull }}"
+      name: Pull Docker Images
+      type: Shell
+    - inline:
+        # failing the build here helps guarantee there is sufficient free space for tests to run
+        - 'kb_free=$(df --output=avail,target | grep " /$" | cut -d " " -f 1); if [[ $kb_free -lt {{ require_kb_free }} ]]; then echo "Insufficient disk space remaining: ${kb_free}KB"; exit 1; fi'
+      name: Check Free Disk Space
+      type: Shell
+  distribute:
+    - galleryImageId: "/subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group }}/providers/Microsoft.Compute/galleries/{{ gallery }}/images/{{ profile }}"
+      replicationRegions: "{{ replication_regions }}"
+      runOutputName: "{{ profile }}"
+      type: SharedImage
+  source:
+    publisher: "{{ source.publisher }}"
+    offer: "{{ source.offer }}"
+    sku: "{{ source.sku }}"
+    version: latest
+    type: PlatformImage
+  vmProfile:
+    vmSize: "{{ vm_size }}"
+    osDiskSizeGB: "{{ os_disk_size_gb }}"

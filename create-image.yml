@@ -1,0 +1,18 @@
+# Create a virtual machine image using Azure Image Builder.
+
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Check for required variables
+      assert:
+        that:
+          - profile is defined
+
+    - name: Create the image builder template
+      command: az image builder create --subscription {{ subscription_id }} --resource-group {{ resource_group }} --name {{ profile }} --image-template image/templates/{{ profile }}.json
+
+    - name: Run the image builder template (may take an hour or more)
+      command: az image builder run --subscription {{ subscription_id }} --resource-group {{ resource_group }} --name {{ profile }}
+
+    - name: Delete the image builder template
+      command: az image builder delete --subscription {{ subscription_id }} --resource-group {{ resource_group }} --name {{ profile }}

@@ -1,0 +1,21 @@
+# Update a scale set to use a new image.
+
+- hosts: localhost
+  gather_facts: no
+  vars:
+    image_ref: /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group }}/providers/Microsoft.Compute/galleries/{{ gallery }}/images/{{ profile }}/versions/{{ image_version }}
+  tasks:
+    - name: Check for required variables
+      assert:
+        that:
+          - scaleset is defined
+          - scaleset_resource_group is defined
+          - profile is defined
+          - image_version is defined
+
+    - name: Update the scale set
+      command: az vmss update
+        --subscription {{ subscription_id }}
+        --resource-group {{ scaleset_resource_group }}
+        --name {{ scaleset }}
+        --set virtualMachineProfile.storageProfile.imageReference.id={{ image_ref }}

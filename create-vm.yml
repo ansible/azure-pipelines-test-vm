@@ -1,0 +1,50 @@
+# Create a virtual machine for testing purposes using an image created by Azure Image Builder.
+
+- hosts: localhost
+  gather_facts: no
+  vars:
+    vm_name: Test
+    vm_resource_group: "Test-{{ lookup('env', 'USER') }}"
+    username: "{{ lookup('env', 'USER') }}"
+    ssh_key_path: ~/.ssh/id_rsa.pub
+  tasks:
+    - name: Check for required variables
+      assert:
+        that:
+          - vm_size is defined
+          - profile is defined
+          - image_version is defined
+
+    - name: Create a resource group
+      command: az group create
+        --subscription {{ subscription_id }}
+        --name {{ vm_resource_group }}
+        --location {{ build_region }}
+
+    - name: Create a virtual machine
+      command: az vm create
+        --subscription {{ subscription_id }}
+        --resource-group {{ vm_resource_group }}
+        --name "{{ vm_name }}"
+        --size {{ vm_size }}
+        --location {{ build_region }}
+        --image /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group }}/providers/Microsoft.Compute/galleries/{{ gallery }}/images/{{ profile }}/versions/{{ image_version }}
+        --admin-username "{{ username }}"
+        --ssh-key-values "{{ ssh_key_path | expanduser }}"
+        --authentication-type SSH
+        --storage-sku Standard_LRS
+        --ephemeral-os-disk true
+        --os-disk-caching readonly
+      register: vm_create
+
+    - name: Parse virtual machine information
+      set_fact:
+        vm: "{{ vm_create.stdout | from_json }}"
+
+    - name: Show connection information
+      debug:
+        msg: "Connect with: ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no {{ username }}@{{ vm['publicIpAddress'] }}"
+
+    - name: Show cleanup information
+      debug:
+        msg: "Cleanup with: az group delete --name {{ vm_resource_group }}"
