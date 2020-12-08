@@ -21,7 +21,8 @@
             },
             {
                 "inline": [
-                    "sudo docker pull quay.io/ansible/azure-pipelines-test-container:1.6.0"
+                    "sudo docker pull quay.io/ansible/azure-pipelines-test-container:1.6.0",
+                    "sudo docker pull quay.io/ansible/azure-pipelines-test-container:1.7.0"
                 ],
                 "name": "Pull Docker Images",
                 "type": "Shell"
