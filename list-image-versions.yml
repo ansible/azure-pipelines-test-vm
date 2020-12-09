@@ -1,0 +1,22 @@
+# List the image versions built for the given profile.
+
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Check for required variables
+      assert:
+        that:
+          - profile is defined
+
+    - name: List image versions
+      command: az sig image-version list
+        --subscription {{ subscription_id }}
+        --resource-group {{ resource_group }}
+        --gallery-name {{ gallery }}
+        --gallery-image-definition {{ profile }}
+        --output table
+      register: image_versions
+
+    - name: Show image versions
+      debug:
+        var: image_versions.stdout_lines
