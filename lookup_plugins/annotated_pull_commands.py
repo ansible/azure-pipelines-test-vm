@@ -51,6 +51,7 @@ def get_docker_pull_commands(branches, git_repo_path):  # type: (t.List[str], st
     images = {
         'quay.io/ansible/azure-pipelines-test-container:1.6.0',
         'quay.io/ansible/azure-pipelines-test-container:1.7.0',
+        'quay.io/ansible/azure-pipelines-test-container:1.7.1',
     }
 
     image_comments = {image: set() for image in images}
