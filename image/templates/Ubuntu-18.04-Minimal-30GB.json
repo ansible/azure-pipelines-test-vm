@@ -13,6 +13,7 @@
         "customize": [
             {
                 "inline": [
+                    "sudo apt-get remove unattended-upgrades -y",
                     "sudo apt-get update -y",
                     "sudo apt-get install docker.io -y --no-install-recommends"
                 ],
