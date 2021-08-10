@@ -13,9 +13,12 @@ properties:
   buildTimeoutInMinutes: "{{ build_timeout_minutes }}"
   customize:
     - inline:
-        - sudo apt-get remove unattended-upgrades -y
+        - sudo apt-get purge unattended-upgrades -y
         - sudo apt-get update -y
+        - sudo apt-get upgrade -y
+        - sudo apt-get autoremove -y
         - sudo apt-get install docker.io -y --no-install-recommends
+        - sudo rm -rf /var/log/unattended-upgrades
       name: Install Packages
       type: Shell
     - inline: "{{ docker_pull }}"
