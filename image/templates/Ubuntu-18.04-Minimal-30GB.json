@@ -25,10 +25,6 @@
             },
             {
                 "inline": [
-                    "sudo docker pull quay.io/ansible/azure-pipelines-test-container:1.6.0",
-                    "sudo docker pull quay.io/ansible/azure-pipelines-test-container:1.7.0",
-                    "sudo docker pull quay.io/ansible/azure-pipelines-test-container:1.7.1",
-                    "sudo docker pull quay.io/ansible/azure-pipelines-test-container:1.8.0",
                     "sudo docker pull quay.io/ansible/azure-pipelines-test-container:1.9.0",
                     "sudo docker pull quay.io/ansible/azure-pipelines-test-container:3.0.0"
                 ],
