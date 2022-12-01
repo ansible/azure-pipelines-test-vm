@@ -2,9 +2,8 @@
 # Variables are substituted and the output is formatted as JSON to build the final template.
 # See: https://docs.microsoft.com/en-us/azure/virtual-machines/linux/image-builder-json
 
-type: Microsoft.VirtualMachineImages
-apiVersion: 2019-05-01-preview
-dependsOn: []
+type: Microsoft.VirtualMachineImages/imageTemplates
+apiVersion: 2022-02-14
 identity:
   type: UserAssigned
   userAssignedIdentities: '{"/subscriptions/{{ subscription_id }}/resourcegroups/{{ resource_group }}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{{ builder_identity }}": {}}'

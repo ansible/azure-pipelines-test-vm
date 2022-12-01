@@ -29,6 +29,12 @@ Commit the changes made manually during the first step and automatically during 
 
 ### Build the Image
 
+If this is a new image template, the image definition must be created first:
+
+``
+ansible-playbook create-definition.yml -i inventory.yml -e profile=Ubuntu-18.04-Minimal-30GB
+``
+
 Build the image defined by the template with the command:
 
 ``
