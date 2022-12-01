@@ -1,0 +1,62 @@
+{
+    "apiVersion": "2022-02-14",
+    "identity": {
+        "type": "UserAssigned",
+        "userAssignedIdentities": {
+            "/subscriptions/088c3066-f1e5-4dd4-88ca-9e03cab2a11d/resourcegroups/AzurePipelinesImageBuilder/providers/Microsoft.ManagedIdentity/userAssignedIdentities/AzureImageBuilderIdentity": {}
+        }
+    },
+    "location": "eastus2",
+    "properties": {
+        "buildTimeoutInMinutes": 120,
+        "customize": [
+            {
+                "inline": [
+                    "sudo apt-get purge unattended-upgrades -y",
+                    "sudo apt-get update -y",
+                    "sudo apt-get upgrade -y",
+                    "sudo apt-get autoremove -y",
+                    "sudo apt-get install docker.io -y --no-install-recommends",
+                    "sudo rm -rf /var/log/unattended-upgrades"
+                ],
+                "name": "Install Packages",
+                "type": "Shell"
+            },
+            {
+                "inline": [
+                    "sudo docker pull quay.io/ansible/azure-pipelines-test-container:1.9.0",
+                    "sudo docker pull quay.io/ansible/azure-pipelines-test-container:3.0.0"
+                ],
+                "name": "Pull Docker Images",
+                "type": "Shell"
+            },
+            {
+                "inline": [
+                    "kb_free=$(df --output=avail,target | grep \" /$\" | cut -d \" \" -f 1); if [[ $kb_free -lt 10000000 ]]; then echo \"Insufficient disk space remaining: ${kb_free}KB\"; exit 1; fi"
+                ],
+                "name": "Check Free Disk Space",
+                "type": "Shell"
+            }
+        ],
+        "distribute": [
+            {
+                "galleryImageId": "/subscriptions/088c3066-f1e5-4dd4-88ca-9e03cab2a11d/resourceGroups/AzurePipelinesImageBuilder/providers/Microsoft.Compute/galleries/AzurePipelinesGallery/images/Ubuntu-22.04-Minimal-30GB",
+                "replicationRegions": [],
+                "runOutputName": "Ubuntu-22.04-Minimal-30GB",
+                "type": "SharedImage"
+            }
+        ],
+        "source": {
+            "offer": "0001-com-ubuntu-server-jammy",
+            "publisher": "Canonical",
+            "sku": "22_04-lts-gen2",
+            "type": "PlatformImage",
+            "version": "latest"
+        },
+        "vmProfile": {
+            "osDiskSizeGB": 30,
+            "vmSize": "Standard_F2s_v2"
+        }
+    },
+    "type": "Microsoft.VirtualMachineImages/imageTemplates"
+}
