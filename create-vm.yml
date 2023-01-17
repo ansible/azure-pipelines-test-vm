@@ -11,9 +11,12 @@
     - name: Check for required variables
       assert:
         that:
-          - vm_size is defined
           - profile is defined
           - image_version is defined
+
+    - name: Load configuration
+      include_vars:
+        file: image/configurations/{{ profile }}.yml
 
     - name: Create a resource group
       command: az group create
@@ -35,6 +38,7 @@
         --storage-sku Standard_LRS
         --ephemeral-os-disk true
         --os-disk-caching readonly
+        --accelerated-networking true
       register: vm_create
 
     - name: Parse virtual machine information
