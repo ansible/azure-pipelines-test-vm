@@ -38,7 +38,7 @@
         --storage-sku Standard_LRS
         --ephemeral-os-disk true
         --os-disk-caching readonly
-        --accelerated-networking true
+        --accelerated-networking "{{ accelerated_networking | default(false) | string | lower }}"
       register: vm_create
 
     - name: Parse virtual machine information

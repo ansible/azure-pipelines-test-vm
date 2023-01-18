@@ -41,7 +41,7 @@
         --load-balancer ""
         --ephemeral-os-disk true
         --os-disk-caching readonly
-        --accelerated-networking
+        --accelerated-networking "{{ accelerated_networking | default(false) | string | lower }}"
       register: vmss_create
 
     - name: Parse virtual machine scale set information

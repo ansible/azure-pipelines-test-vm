@@ -1,6 +1,7 @@
 vm_size: Standard_F2s_v2
 os_disk_size_gb: 30
 generation: V2
+accelerated_networking: yes
 branches: []
 source:
   publisher: Canonical
