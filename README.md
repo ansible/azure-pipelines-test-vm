@@ -51,6 +51,12 @@ Retrieve the list of image versions with the command:
 ansible-playbook -i inventory.yml list-image-versions.yml -e profile=Ubuntu-18.04-Minimal-30GB
 ``
 
+Once the image has been built, it can be tested with the command:
+
+```
+ansible-playbook create-vm.yml -i inventory.yml -e profile=Ubuntu-18.04-Minimal-30GB -e image_version=0.24528.6373
+```
+
 Once the image has been built, it can be deployed to a scale set with the command:
 
 ``
