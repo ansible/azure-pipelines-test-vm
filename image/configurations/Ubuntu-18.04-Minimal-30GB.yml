@@ -1,7 +1,0 @@
-vm_size: Standard_F2s_v2
-os_disk_size_gb: 30
-branches: []
-source:
-  publisher: Canonical
-  offer: UbuntuServer
-  sku: 18.04-LTS

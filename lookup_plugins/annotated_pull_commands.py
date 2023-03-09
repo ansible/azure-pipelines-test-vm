@@ -49,7 +49,6 @@ def get_container_names(branch, git_cache_path):  # type: (str, str) -> t.List[s
 def get_docker_pull_commands(branches, git_repo_path):  # type: (t.List[str], str) -> t.List[str]
     """Return a list of docker pull commands for container images used in the given branches."""
     images = {
-        'quay.io/ansible/azure-pipelines-test-container:1.9.0',
         'quay.io/ansible/azure-pipelines-test-container:3.0.0',
     }
 
@@ -72,10 +71,14 @@ def get_docker_pull_commands(branches, git_repo_path):  # type: (t.List[str], st
         if branches:
             comment += f' {" ".join(branches)}'
 
+        docker_pull.append(f"echo Pulling {image} ...")
+
         if comment:
             comment = f'  #{comment}'
 
         docker_pull.append(f'sudo docker pull {image}{comment}')
+
+    docker_pull.append("echo All images have been pulled")
 
     return docker_pull
 
