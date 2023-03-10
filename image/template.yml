@@ -12,21 +12,66 @@ properties:
   buildTimeoutInMinutes: "{{ build_timeout_minutes }}"
   customize:
     - inline:
+        - echo Removing unattended-upgrades ...
         - sudo apt-get purge unattended-upgrades -y
+        - echo Updating apt database ...
         - sudo apt-get update -y
+        - echo Upgrading installed packages ...
         - sudo apt-get upgrade -y
+        - echo Removing unused packages ...
         - sudo apt-get autoremove -y
+        - echo Installing docker.io ...
         - sudo apt-get install docker.io -y --no-install-recommends
+        - echo Removing unwanted files ...
         - sudo rm -rf /var/log/unattended-upgrades
+        - echo Package installation complete
       name: Install Packages
+      type: Shell
+    - inline:
+        - echo Creating cgroup-v1 service ...
+        - |-
+          cat << UNIT_FILE | sudo tee /etc/systemd/system/cgroup-v1.service
+          [Unit]
+          Description=Enable cgroup v1
+          Before=basic.target
+          After=sysinit.target
+          DefaultDependencies=no
+
+          [Service]
+          Type=oneshot
+          ExecStart=mkdir /sys/fs/cgroup/systemd
+          ExecStart=mount cgroup -t cgroup /sys/fs/cgroup/systemd -o none,name=systemd,xattr
+
+          [Install]
+          WantedBy=basic.target
+          UNIT_FILE
+        - echo Enabling cgroup-v1 service ...
+        - sudo systemctl enable cgroup-v1
+        - echo Service cgroup-v1 installed
+      name: Create cgroup-v1 Service
       type: Shell
     - inline: "{{ docker_pull }}"
       name: Pull Docker Images
       type: Shell
     - inline:
         # failing the build here helps guarantee there is sufficient free space for tests to run
-        - 'kb_free=$(df --output=avail,target | grep " /$" | cut -d " " -f 1); if [[ $kb_free -lt {{ require_kb_free }} ]]; then echo "Insufficient disk space remaining: ${kb_free}KB"; exit 1; fi'
+        - echo Checking free disk space ...
+        - |-
+          set -eu
+          require_kb_free={{ require_kb_free }}
+          kb_free=$(df --output=avail,target | grep ' /$' | sed 's/^ *//;' | cut -d ' ' -f 1)
+          echo Free disk space required: ${require_kb_free} KB
+          echo Free disk space remaining: ${kb_free} KB
+          if [ ${kb_free} -lt ${require_kb_free} ]; then
+            echo Insufficient free disk space remaining
+            exit 1
+          fi
+        - echo Free disk space OK
       name: Check Free Disk Space
+      type: Shell
+    - inline:
+        - echo Customization complete
+      name: Complete
       type: Shell
   distribute:
     - galleryImageId: "/subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group }}/providers/Microsoft.Compute/galleries/{{ gallery }}/images/{{ profile }}"

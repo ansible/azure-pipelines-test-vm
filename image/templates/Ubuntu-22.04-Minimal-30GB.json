@@ -12,29 +12,57 @@
         "customize": [
             {
                 "inline": [
+                    "echo Removing unattended-upgrades ...",
                     "sudo apt-get purge unattended-upgrades -y",
+                    "echo Updating apt database ...",
                     "sudo apt-get update -y",
+                    "echo Upgrading installed packages ...",
                     "sudo apt-get upgrade -y",
+                    "echo Removing unused packages ...",
                     "sudo apt-get autoremove -y",
+                    "echo Installing docker.io ...",
                     "sudo apt-get install docker.io -y --no-install-recommends",
-                    "sudo rm -rf /var/log/unattended-upgrades"
+                    "echo Removing unwanted files ...",
+                    "sudo rm -rf /var/log/unattended-upgrades",
+                    "echo Package installation complete"
                 ],
                 "name": "Install Packages",
                 "type": "Shell"
             },
             {
                 "inline": [
-                    "sudo docker pull quay.io/ansible/azure-pipelines-test-container:1.9.0",
-                    "sudo docker pull quay.io/ansible/azure-pipelines-test-container:3.0.0"
+                    "echo Creating cgroup-v1 service ...",
+                    "cat << UNIT_FILE | sudo tee /etc/systemd/system/cgroup-v1.service\n[Unit]\nDescription=Enable cgroup v1\nBefore=basic.target\nAfter=sysinit.target\nDefaultDependencies=no\n\n[Service]\nType=oneshot\nExecStart=mkdir /sys/fs/cgroup/systemd\nExecStart=mount cgroup -t cgroup /sys/fs/cgroup/systemd -o none,name=systemd,xattr\n\n[Install]\nWantedBy=basic.target\nUNIT_FILE",
+                    "echo Enabling cgroup-v1 service ...",
+                    "sudo systemctl enable cgroup-v1",
+                    "echo Service cgroup-v1 installed"
+                ],
+                "name": "Create cgroup-v1 Service",
+                "type": "Shell"
+            },
+            {
+                "inline": [
+                    "echo Pulling quay.io/ansible/azure-pipelines-test-container:3.0.0 ...",
+                    "sudo docker pull quay.io/ansible/azure-pipelines-test-container:3.0.0",
+                    "echo All images have been pulled"
                 ],
                 "name": "Pull Docker Images",
                 "type": "Shell"
             },
             {
                 "inline": [
-                    "kb_free=$(df --output=avail,target | grep \" /$\" | cut -d \" \" -f 1); if [[ $kb_free -lt 10000000 ]]; then echo \"Insufficient disk space remaining: ${kb_free}KB\"; exit 1; fi"
+                    "echo Checking free disk space ...",
+                    "set -eu\nrequire_kb_free=10000000\nkb_free=$(df --output=avail,target | grep ' /$' | sed 's/^ *//;' | cut -d ' ' -f 1)\necho Free disk space required: ${require_kb_free} KB\necho Free disk space remaining: ${kb_free} KB\nif [ ${kb_free} -lt ${require_kb_free} ]; then\n  echo Insufficient free disk space remaining\n  exit 1\nfi",
+                    "echo Free disk space OK"
                 ],
                 "name": "Check Free Disk Space",
+                "type": "Shell"
+            },
+            {
+                "inline": [
+                    "echo Customization complete"
+                ],
+                "name": "Complete",
                 "type": "Shell"
             }
         ],
