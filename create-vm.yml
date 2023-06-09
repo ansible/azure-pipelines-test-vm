@@ -13,6 +13,7 @@
         that:
           - profile is defined
           - image_version is defined
+          - username
 
     - name: Load configuration
       include_vars:
