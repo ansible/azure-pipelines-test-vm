@@ -12,6 +12,10 @@
       set_fact:
         template_name: "Build-{{ 999 | random(start=100) }}-{{ 999 | random(start=100) }}"
 
+    - name: Show template name
+      debug:
+        msg: "The template name is: {{ template_name }}"
+
     - name: Create the image builder template
       command: az image builder create --subscription {{ subscription_id }} --resource-group {{ resource_group }} --name {{ template_name }} --image-template image/templates/{{ profile }}.json
 
