@@ -12,10 +12,13 @@ properties:
   buildTimeoutInMinutes: "{{ build_timeout_minutes }}"
   customize:
     - inline:
-        - echo Removing unattended-upgrades ...
-        - sudo apt-get purge unattended-upgrades -y
+        - export DEBIAN_FRONTEND=noninteractive
+        - export NEEDRESTART_SUSPEND=1
+        - export NEEDRESTART_MODE=l
         - echo Updating apt database ...
         - sudo apt-get update -y
+        - echo Removing needrestart and unattended-upgrades ...
+        - sudo apt-get purge needrestart unattended-upgrades -y
         - echo Upgrading installed packages ...
         - sudo apt-get upgrade -y
         - echo Removing unused packages ...
@@ -26,6 +29,13 @@ properties:
         - sudo rm -rf /var/log/unattended-upgrades
         - echo Package installation complete
       name: Install Packages
+      type: Shell
+    - expect_disconnect: true
+      inline:
+        - echo Pre-reboot
+        - sudo systemctl reboot
+      pause_after: 10s
+      name: Rebooting the VM
       type: Shell
     - inline:
         - echo Creating cgroup-v1 service ...
