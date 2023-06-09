@@ -10,7 +10,7 @@
 
     - name: Create random template name
       set_fact:
-        template_name: "{{ profile }}-ID-{{ 999 | random(start=100) }}-{{ 999 | random(start=100) }}"
+        template_name: "Build-{{ 999 | random(start=100) }}-{{ 999 | random(start=100) }}"
 
     - name: Create the image builder template
       command: az image builder create --subscription {{ subscription_id }} --resource-group {{ resource_group }} --name {{ template_name }} --image-template image/templates/{{ profile }}.json
