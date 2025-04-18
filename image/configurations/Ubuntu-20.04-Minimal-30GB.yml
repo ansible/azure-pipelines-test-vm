@@ -1,9 +1,0 @@
-vm_size: Standard_F2s_v2
-os_disk_size_gb: 30
-generation: V2
-accelerated_networking: no  # enabling this causes the network to be unavailable for 5+ minutes after boot
-branches: []
-source:
-  publisher: Canonical
-  offer: 0001-com-ubuntu-server-focal
-  sku: 20_04-lts-gen2
