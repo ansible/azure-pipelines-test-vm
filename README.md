@@ -57,10 +57,4 @@ Once the image has been built, it can be tested with the command:
 ansible-playbook create-vm.yml -i inventory.yml -e profile=Ubuntu-22.04-Minimal-30GB -e image_version=0.25610.38691
 ```
 
-Once the image has been built, it can be deployed to a scale set with the command:
-
-``
-ansible-playbook update-scaleset.yml -i inventory.yml -e profile=Ubuntu-22.04-Minimal-30GB -e scaleset_resource_group=AzurePipelines -e scaleset=AgentPool-CGroupV2-EastUS2 -e image_version=0.25610.38691
-``
-
-> NOTE: The ``image_version`` used in the above command was retrieved from the list returned by the previous command.
+Once the image has been built, update and deploy the appropriate scale sets in the `bison` directory.
