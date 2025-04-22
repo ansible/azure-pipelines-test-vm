@@ -101,6 +101,10 @@ resource scaleSet 'Microsoft.Compute/virtualMachineScaleSets@2024-07-01' = {
                     privateIPAddressVersion: 'IPv4'
                     publicIPAddressConfiguration: {
                       name: 'PublicIPv4'
+                      sku: {
+                        name: 'Standard'
+                        tier: 'Regional'
+                      }
                       properties: {
                         publicIPAddressVersion: 'IPv4'
                       }
