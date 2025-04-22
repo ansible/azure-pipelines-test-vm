@@ -11,7 +11,8 @@ Substitute the desired values as needed.
 
 ### Update the Configuration
 
-Make changes to the ``lookup_plugins/annotated_pull_commands.py`` plugin or the profile configuration in the ``image/configurations/Ubuntu-22.04-Minimal-30GB.yml`` file.
+Update the "Pull Docker Images" task in ``image/template.yml``,
+or the profile configuration in the ``image/configurations/Ubuntu-22.04-Minimal-30GB.yml`` file.
 
 > IMPORTANT: Do not edit the files in the ``image/templates/`` directory.
  

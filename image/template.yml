@@ -60,7 +60,11 @@ properties:
         - echo Service cgroup-v1 installed
       name: Create cgroup-v1 Service
       type: Shell
-    - inline: "{{ docker_pull }}"
+    - inline:
+        - echo Pulling images ...
+        - sudo docker pull quay.io/ansible/azure-pipelines-test-container:4.0.1
+        - sudo docker pull quay.io/ansible/azure-pipelines-test-container:6.0.0
+        - echo All images have been pulled
       name: Pull Docker Images
       type: Shell
     - inline:

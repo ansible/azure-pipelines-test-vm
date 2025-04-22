@@ -11,6 +11,5 @@ all:
       build_timeout_minutes: 120
       image_publisher: Ansible
       image_offer: AzurePipelines
-      git_cache_path: .cache
       require_kb_free: 10000000  # leave enough space for tests to run
       replication_regions: []
