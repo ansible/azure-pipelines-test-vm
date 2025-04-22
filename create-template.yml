@@ -12,19 +12,6 @@
       include_vars:
         file: image/configurations/{{ profile }}.yml
 
-    - name: Check out ansible/ansible and pull branch updates
-      git:
-        repo: https://github.com/ansible/ansible
-        dest: "{{ git_cache_path }}/{{ item }}"
-        version: "{{ item }}"
-      loop: "{{ branches }}"
-      tags:
-        - git
-
-    - name: Collect docker pull commands from ansible-test container image usage
-      set_fact:
-        docker_pull: "{{ lookup('annotated_pull_commands', branches=branches, git_cache_path=git_cache_path) }}"
-
     - name: Load and populate the template
       include_vars:
         file: image/template.yml
