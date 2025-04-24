@@ -42,13 +42,6 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2024-03-01' = {
       }
       // Pool subnets
       {
-        name: 'AgentPool-Standard_F2s_v2'
-        properties: {
-          privateEndpointNetworkPolicies: 'Enabled'
-          addressPrefixes: getPoolSubnets(location, 0)
-        }
-      }
-      {
         name: 'AgentPool-IPv4'
         properties: {
           privateEndpointNetworkPolicies: 'Enabled'

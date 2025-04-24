@@ -3,8 +3,8 @@ Virtual machine image builder for running ansible-test on Azure Pipelines.
 
 ## Updating, Building and Deploying a Virtual Machine Image
 
-The following instructions will use the ``Ubuntu-22.04-Minimal-30GB`` profile and the ``AgentPool-CGroupV2-EastUS2`` scale set in the ``AzurePipelines`` resource group as examples.
-Substitute the desired values as needed.
+These instructions will use the ``Ubuntu-22.04-Minimal-30GB`` image in the examples.
+Substitute the desired image as needed.
 
 > NOTE: These instructions assume the profile and scale set already exist.
 > Additional steps are required if one or both must be created.
