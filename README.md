@@ -11,7 +11,7 @@ Substitute the desired image as needed.
 
 ### Update the Configuration
 
-Update the "Pull Docker Images" task in ``image/template.yml``,
+Update the ``image/customize.sh`` script,
 or the profile configuration in the ``image/configurations/Ubuntu-22.04-Minimal-30GB.yml`` file.
 
 > IMPORTANT: Do not edit the files in the ``image/templates/`` directory.
@@ -58,4 +58,4 @@ Once the image has been built, it can be tested with the command:
 ansible-playbook create-vm.yml -i inventory.yml -e profile=Ubuntu-22.04-Minimal-30GB -e image_version=0.25610.38691
 ```
 
-Once the image has been built, update and deploy the appropriate scale sets in the `bison` directory.
+Once the image has been built, update and deploy the appropriate scale sets in the `bicep` directory.

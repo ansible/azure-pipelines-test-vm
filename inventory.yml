@@ -8,7 +8,7 @@ all:
       builder_identity: AzureImageBuilderIdentity
       resource_group: AzurePipelinesImageBuilder
       gallery: AzurePipelinesGallery  # must be unique per subscription
-      build_timeout_minutes: 120
+      build_timeout_minutes: 60
       image_publisher: Ansible
       image_offer: AzurePipelines
       require_kb_free: 10000000  # leave enough space for tests to run
