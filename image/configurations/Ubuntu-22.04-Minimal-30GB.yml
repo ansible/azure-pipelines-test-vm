@@ -1,7 +1,0 @@
-vm_size: Standard_F2s_v2
-os_disk_size_gb: 30
-accelerated_networking: yes
-source:
-  publisher: Canonical
-  offer: 0001-com-ubuntu-server-jammy
-  sku: 22_04-lts-gen2

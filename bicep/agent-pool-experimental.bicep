@@ -2,15 +2,15 @@ param location string
 
 param acceleratedNetworking bool = true
 
-param skuName string = 'Standard_F2s_v2'
-param label string = 'AgentPool-IPv4'
+param skuName string = 'Standard_D2alds_v6'
+param label string = 'AgentPool-Experimental'
 param name string = '${ label }-${ location }'
 param virtualNetworkName string = 'Network-${ location }'
 param subnetName string = label
 
 param galleryResourceGroupName string = 'AzurePipelinesImageBuilder'
 param galleryName string = 'AzurePipelinesGallery'
-param imageName string = 'Ubuntu-24.04-SCSI'
+param imageName string = 'Ubuntu-24.04'
 param versionName string = '1.0.0'
 param computerNamePrefix string = 'agent'
 
@@ -61,7 +61,6 @@ resource scaleSet 'Microsoft.Compute/virtualMachineScaleSets@2024-07-01' = {
         linuxConfiguration: {
           disablePasswordAuthentication: false
           provisionVMAgent: true
-          enableVMAgentPlatformUpdates: false
         }
         allowExtensionOperations: true
       }

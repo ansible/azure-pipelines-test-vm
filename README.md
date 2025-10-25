@@ -1,61 +1,46 @@
 # azure-pipelines-test-vm
+
 Virtual machine image builder for running ansible-test on Azure Pipelines.
 
-## Updating, Building and Deploying a Virtual Machine Image
+## Building and Deploying a VM Image
 
-These instructions will use the ``Ubuntu-22.04-Minimal-30GB`` image in the examples.
+These instructions will use the ``Ubuntu-24.04`` image in the examples.
 Substitute the desired image as needed.
 
-> NOTE: These instructions assume the profile and scale set already exist.
-> Additional steps are required if one or both must be created.
+### Update the Image Profile
 
-### Update the Configuration
-
-Update the ``image/customize.sh`` script,
-or the profile configuration in the ``image/configurations/Ubuntu-22.04-Minimal-30GB.yml`` file.
-
-> IMPORTANT: Do not edit the files in the ``image/templates/`` directory.
- 
-### Update the Template
-
-Update the profile template with the command:
-
-``
-ansible-playbook create-template.yml -i inventory.yml -e profile=Ubuntu-22.04-Minimal-30GB
-``
-
-### Commit the Changes
-
-Commit the changes made manually during the first step and automatically during the second step.
+Create or update the desired image profile in the ``profiles`` directory.
+Profiles are used to define how an image should be built.
 
 ### Build the Image
 
-If this is a new image template, the image definition must be created first:
+Build the image defined by the profile with the command:
 
 ``
-ansible-playbook create-definition.yml -i inventory.yml -e profile=Ubuntu-22.04-Minimal-30GB
+ansible-playbook create-image.yml -e profile=Ubuntu-24.04
 ``
 
-Build the image defined by the template with the command:
+> NOTE: This step is expected to run for up to an hour. Come back and check on it later.
 
-``
-ansible-playbook create-image.yml -i inventory.yml -e profile=Ubuntu-22.04-Minimal-30GB
-``
-
-> NOTE: This step is expected to run for more than an hour. Come back and check on it later.
-
-### Deploy the Image
+### Listing the Image Versions
 
 Retrieve the list of image versions with the command:
 
 ``
-ansible-playbook -i inventory.yml list-image-versions.yml -e profile=Ubuntu-22.04-Minimal-30GB
+ansible-playbook list-image-versions.yml -e profile=Ubuntu-24.04
 ``
 
-Once the image has been built, it can be tested with the command:
+### Testing the Image
+
+If needed, an image can be tested before being deployed:
 
 ```
-ansible-playbook create-vm.yml -i inventory.yml -e profile=Ubuntu-22.04-Minimal-30GB -e image_version=0.25610.38691
+ansible-playbook create-vm.yml -e profile=Ubuntu-24.04 -e image_version=1.0.0
 ```
 
-Once the image has been built, update and deploy the appropriate scale sets in the `bicep` directory.
+> NOTE: Don't forget to remove the test VM's resource group after testing is complete.
+
+### Deploy the Image
+
+Once the image has been built,
+update and deploy the appropriate scale sets in the `bicep` directory.

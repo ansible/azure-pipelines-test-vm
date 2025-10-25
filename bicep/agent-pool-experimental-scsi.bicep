@@ -3,7 +3,7 @@ param location string
 param acceleratedNetworking bool = true
 
 param skuName string = 'Standard_F2s_v2'
-param label string = 'AgentPool-IPv4'
+param label string = 'AgentPool-Experimental-SCSI'
 param name string = '${ label }-${ location }'
 param virtualNetworkName string = 'Network-${ location }'
 param subnetName string = label
@@ -61,7 +61,6 @@ resource scaleSet 'Microsoft.Compute/virtualMachineScaleSets@2024-07-01' = {
         linuxConfiguration: {
           disablePasswordAuthentication: false
           provisionVMAgent: true
-          enableVMAgentPlatformUpdates: false
         }
         allowExtensionOperations: true
       }

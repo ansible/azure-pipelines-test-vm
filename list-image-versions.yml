@@ -2,12 +2,11 @@
 
 - hosts: localhost
   gather_facts: no
+  vars_prompt:
+    - name: profile
+      prompt: Enter the profile name
+      private: no
   tasks:
-    - name: Check for required variables
-      assert:
-        that:
-          - profile is defined
-
     - name: List image versions
       command: az sig image-version list
         --subscription {{ subscription_id }}

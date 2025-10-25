@@ -61,6 +61,26 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2024-03-01' = {
           }
         }
       }
+      {
+        name: 'AgentPool-Experimental'
+        properties: {
+          privateEndpointNetworkPolicies: 'Enabled'
+          addressPrefixes: getPoolSubnets(location, 3)
+          networkSecurityGroup: {
+            id: networkSecurityGroup.id
+          }
+        }
+      }
+      {
+        name: 'AgentPool-Experimental-SCSI'
+        properties: {
+          privateEndpointNetworkPolicies: 'Enabled'
+          addressPrefixes: getPoolSubnets(location, 4)
+          networkSecurityGroup: {
+            id: networkSecurityGroup.id
+          }
+        }
+      }
     ]
   }
 }

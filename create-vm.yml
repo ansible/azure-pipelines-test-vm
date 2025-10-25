@@ -2,6 +2,13 @@
 
 - hosts: localhost
   gather_facts: no
+  vars_prompt:
+    - name: profile
+      prompt: Enter the profile name
+      private: no
+    - name: image_version
+      prompt: Enter the image version
+      private: no
   vars:
     vm_name: Test
     vm_resource_group: "Test-{{ lookup('env', 'USER') }}"
@@ -11,8 +18,6 @@
     - name: Check for required variables
       assert:
         that:
-          - profile is defined
-          - image_version is defined
           - username
 
     - name: Load configuration
@@ -39,7 +44,7 @@
         --storage-sku Standard_LRS
         --ephemeral-os-disk true
         --os-disk-caching readonly
-        --accelerated-networking "{{ accelerated_networking | default(false) | string | lower }}"
+        --accelerated-networking true
       register: vm_create
 
     - name: Parse virtual machine information

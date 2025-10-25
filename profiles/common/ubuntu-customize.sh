@@ -38,7 +38,7 @@ UNIT_FILE
 
 sudo systemctl enable cgroup-v1
 
-require_kb_free="{{ require_kb_free }}"
+require_kb_free=10000000
 kb_free="$(df --output='avail,target' | grep ' /$' | sed 's/^ *//;' | cut -d ' ' -f 1)"
 
 echo "Free disk space required: ${require_kb_free} KB"

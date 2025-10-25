@@ -10,8 +10,8 @@ param subnetName string = label
 
 param galleryResourceGroupName string = 'AzurePipelinesImageBuilder'
 param galleryName string = 'AzurePipelinesGallery'
-param imageName string = 'Ubuntu-22.04-Minimal-30GB'
-param versionName string = '0.25610.38698'
+param imageName string = 'Ubuntu-24.04-SCSI'
+param versionName string = '1.0.0'
 param computerNamePrefix string = 'agent'
 
 param username string = 'manager'
@@ -71,7 +71,6 @@ resource scaleSet 'Microsoft.Compute/virtualMachineScaleSets@2024-07-01' = {
           osType: 'Linux'
           diffDiskSettings: {
             option: 'Local'
-            placement: 'CacheDisk'
           }
           createOption: 'FromImage'
           caching: 'ReadOnly'

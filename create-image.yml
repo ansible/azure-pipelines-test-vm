@@ -2,12 +2,11 @@
 
 - hosts: localhost
   gather_facts: no
+  vars_prompt:
+    - name: profile
+      prompt: Enter the profile name
+      private: no
   tasks:
-    - name: Check for required variables
-      assert:
-        that:
-          - profile is defined
-
     - name: Create random template name
       set_fact:
         template_name: "Build-{{ 999 | random(start=100) }}-{{ 999 | random(start=100) }}"
@@ -17,9 +16,9 @@
         msg: "The template name is: {{ template_name }}"
 
     - name: Create the image builder template
-      command: az image builder create --subscription {{ subscription_id }} --resource-group {{ resource_group }} --name {{ template_name }} --image-template image/templates/{{ profile }}.json
+      command: az deployment group create --subscription {{ subscription_id }} --resource-group {{ resource_group }} -p templateName={{ template_name }} -f profiles/{{ profile | quote }}.bicep
 
-    - name: Run the image builder template (may take an hour or more)
+    - name: Run the image builder template (may take up to an hour)
       command: az image builder run --subscription {{ subscription_id }} --resource-group {{ resource_group }} --name {{ template_name }}
 
     - name: Delete the image builder template

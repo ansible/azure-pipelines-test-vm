@@ -5,11 +5,5 @@ all:
       ansible_python_interpreter: "{{ ansible_playbook_python }}"
       subscription_id: 088c3066-f1e5-4dd4-88ca-9e03cab2a11d
       build_region: eastus2  # consistently the lowest cost region for compute
-      builder_identity: AzureImageBuilderIdentity
       resource_group: AzurePipelinesImageBuilder
       gallery: AzurePipelinesGallery  # must be unique per subscription
-      build_timeout_minutes: 60
-      image_publisher: Ansible
-      image_offer: AzurePipelines
-      require_kb_free: 10000000  # leave enough space for tests to run
-      replication_regions: []
