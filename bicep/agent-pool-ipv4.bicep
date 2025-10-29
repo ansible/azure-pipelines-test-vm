@@ -61,7 +61,6 @@ resource scaleSet 'Microsoft.Compute/virtualMachineScaleSets@2024-07-01' = {
         linuxConfiguration: {
           disablePasswordAuthentication: false
           provisionVMAgent: true
-          enableVMAgentPlatformUpdates: false
         }
         allowExtensionOperations: true
       }
