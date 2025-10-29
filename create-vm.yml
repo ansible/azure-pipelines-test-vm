@@ -41,7 +41,7 @@
         --admin-username "{{ username }}"
         --ssh-key-values "{{ ssh_key_path | expanduser }}"
         --authentication-type SSH
-        --storage-sku Standard_LRS
+        --storage-sku StandardSSD_LRS
         --ephemeral-os-disk true
         --os-disk-caching readonly
         --accelerated-networking true

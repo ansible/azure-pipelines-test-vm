@@ -73,7 +73,7 @@ resource scaleSet 'Microsoft.Compute/virtualMachineScaleSets@2024-07-01' = {
           createOption: 'FromImage'
           caching: 'ReadOnly'
           managedDisk: {
-            storageAccountType: 'Standard_LRS'
+            storageAccountType: 'StandardSSD_LRS'
           }
         }
         imageReference: {
