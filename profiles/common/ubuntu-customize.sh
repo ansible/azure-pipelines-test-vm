@@ -19,6 +19,7 @@ sudo systemctl start docker
 
 sudo docker pull quay.io/ansible/azure-pipelines-test-container:6.0.0
 sudo docker pull quay.io/ansible/azure-pipelines-test-container:7.0.0
+sudo docker pull quay.io/ansible/azure-pipelines-test-container:8.0.0
 
 cat << UNIT_FILE | sudo tee /etc/systemd/system/cgroup-v1.service
 [Unit]
