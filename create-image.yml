@@ -16,7 +16,7 @@
         msg: "The template name is: {{ template_name }}"
 
     - name: Create the image builder template
-      command: az deployment group create --subscription {{ subscription_id }} --resource-group {{ resource_group }} -p templateName={{ template_name }} -f profiles/{{ profile | quote }}.bicep
+      command: az deployment group create --subscription {{ subscription_id }} --resource-group {{ resource_group }} --name {{ template_name }} -p templateName={{ template_name }} -f profiles/{{ profile | quote }}.bicep
 
     - name: Run the image builder template (may take up to an hour)
       command: az image builder run --subscription {{ subscription_id }} --resource-group {{ resource_group }} --name {{ template_name }}
