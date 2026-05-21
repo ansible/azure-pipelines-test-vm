@@ -9,15 +9,15 @@ param diskControllerTypes string
 
 param location string = 'EastUS2'
 param buildTimeoutMinutes int = 60
-param replicationRegions array = []
+param targetRegions array = []
 param galleryName string = 'AzurePipelinesGallery'
 param builderIdentity string = 'AzureImageBuilderIdentity'
 
-resource identity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' existing = {
+resource identity 'Microsoft.ManagedIdentity/userAssignedIdentities@2025-05-31-preview' existing = {
   name: builderIdentity
 }
 
-resource gallery 'Microsoft.Compute/galleries@2023-07-03' existing = {
+resource gallery 'Microsoft.Compute/galleries@2025-03-03' existing = {
   name: galleryName
 
   resource imageDefinition 'images' = {
@@ -51,7 +51,7 @@ resource gallery 'Microsoft.Compute/galleries@2023-07-03' existing = {
   }
 }
 
-resource imageTemplate 'Microsoft.VirtualMachineImages/imageTemplates@2024-02-01' = {
+resource imageTemplate 'Microsoft.VirtualMachineImages/imageTemplates@2025-10-01' = {
   name: templateName
   identity: {
     type: 'UserAssigned'
@@ -74,7 +74,7 @@ resource imageTemplate 'Microsoft.VirtualMachineImages/imageTemplates@2024-02-01
     distribute: [
       {
         galleryImageId: gallery::imageDefinition.id
-        replicationRegions: replicationRegions
+        targetRegions: targetRegions
         runOutputName: imageName
         type: 'SharedImage'
       }
