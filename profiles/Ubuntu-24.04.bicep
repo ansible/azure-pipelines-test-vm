@@ -11,6 +11,6 @@ module ubuntu 'common/ubuntu.bicep' = {
     sourcePublisher: 'Canonical'
     sourceOffer: 'ubuntu-24_04-lts'
     sourceSku: 'server'
-    diskControllerTypes: 'SCSI,NVMe'
+    diskControllerTypes: 'SCSI, NVMe'
   }
 }
