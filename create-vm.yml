@@ -18,11 +18,14 @@
     - name: Check for required variables
       assert:
         that:
-          - username
+          - username is defined
 
     - name: Load configuration
-      include_vars:
-        file: image/configurations/{{ profile }}.yml
+      command: az bicep build --file profiles/{{ profile }}.bicep --stdout
+      register:
+        bicep: _task.result.stdout | from_json
+        vm_size: bicep.resources[0].properties.parameters.vmSize.value
+      changed: false
 
     - name: Create a resource group
       command: az group create
