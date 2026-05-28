@@ -17,7 +17,7 @@ sudo apt-get install docker.io -y --no-install-recommends
 
 sudo systemctl start docker
 
-sudo docker pull quay.io/ansible/azure-pipelines-test-container:6.0.0
+sudo docker pull quay.io/ansible/azure-pipelines-test-container:6.1.0
 sudo docker pull quay.io/ansible/azure-pipelines-test-container:7.0.0
 sudo docker pull quay.io/ansible/azure-pipelines-test-container:8.0.0
 
