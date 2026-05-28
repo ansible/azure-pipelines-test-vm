@@ -11,7 +11,7 @@ param subnetName string = label
 param galleryResourceGroupName string = 'AzurePipelinesImageBuilder'
 param galleryName string = 'AzurePipelinesGallery'
 param imageName string = 'Ubuntu-24.04'
-param versionName string = '1.0.0'
+param versionName string = '1.0.1'
 param computerNamePrefix string = 'agent'
 
 param username string = 'manager'
