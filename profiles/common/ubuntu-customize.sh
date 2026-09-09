@@ -21,6 +21,12 @@ sudo docker pull quay.io/ansible/azure-pipelines-test-container:6.1.0
 sudo docker pull quay.io/ansible/azure-pipelines-test-container:7.0.0
 sudo docker pull quay.io/ansible/azure-pipelines-test-container:8.0.0
 
+# Enable /var/run/docker.sock for all container jobs.
+# See: https://github.com/microsoft/azure-pipelines-agent/pull/5627
+cat << ENV_VARS | sudo tee /etc/profile.d/agent_env_vars.sh
+export AZP_AGENT_DEFAULT_MAP_DOCKER_SOCKET_TO_FALSE=false
+ENV_VARS
+
 cat << UNIT_FILE | sudo tee /etc/systemd/system/cgroup-v1.service
 [Unit]
 Description=Enable cgroup v1
