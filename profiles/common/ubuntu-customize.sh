@@ -10,7 +10,7 @@ sleep 60  # allow time for cloud-init to update /etc/apt/sources.list
 
 sudo rm -rf /var/log/unattended-upgrades
 
-sudo apt-get clean all -y
+sudo apt-get clean -y
 sudo apt-get purge needrestart unattended-upgrades -y
 sudo apt-get autoremove -y
 sudo apt-get update -y
