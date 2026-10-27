@@ -1,9 +1,5 @@
 set -eux
 
-export DEBIAN_FRONTEND=noninteractive
-export NEEDRESTART_SUSPEND=1
-export NEEDRESTART_MODE=l
-
 . /etc/os-release
 
 sleep 60  # allow time for cloud-init to update /etc/apt/sources.list
